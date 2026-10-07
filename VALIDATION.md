@@ -18,8 +18,12 @@ Test date: 2026-10-07. Native GUI checks were performed on macOS 27.0 (26A428), 
 | TextEdit, only document minimized | Valid AX window retained despite no on-screen CG window; app stayed running beyond the close delay. |
 | TextEdit, one minimized document plus one visible document; visible document closed | Minimized document remained a valid retained window; app stayed running. |
 | Settings after the app's menu-bar icon was hidden | Reopening the installed app displayed Settings successfully. |
+| Cmd-H with open TextEdit documents | App became hidden with valid AX windows; process remained running beyond the close delay. |
+| Entering a full-screen Space with other apps on the previous desktop | Chrome, Docker Desktop and System Settings each temporarily reported AXWindows=0, while retainedAlive=1; all stayed running with onScreen=false. |
 | Existing user preferences and login startup | Original exclusion list, hidden menu-bar preference and hidden startup retained; native login-item status reported enabled. |
 
-Chrome remained running with an open window throughout the initial checks. That is a live-window retention check, not a last-window Chrome compatibility claim. The monitor's cross-Space protection is based on valid AX references to windows previously observed. A desktop-switch GUI check and Cmd-H check are recorded below when completed. Screen Recording access is neither requested nor used.
+Chrome remained running with an open window throughout the initial checks. That is a live-window retention check, not a last-window Chrome compatibility claim. The monitor's cross-Space protection is based on valid AX references to windows previously observed. Screen Recording access is neither requested nor used.
 
 Local monitor logs include app identifiers, counts, process IDs and decisions. User window titles, file contents, and the user's preference list are not committed to this repository.
+
+GitHub Actions also passed all tests, Swift package release compilation, universal app construction and ZIP artifact upload on the macOS 15 runner: [build 37609361019](https://github.com/hechuyi/swiftquit/actions/runs/37609361019). Runtime compatibility was verified on the macOS 27 machine described above; the CI runner validates compilation and regressions.
