@@ -1,0 +1,22 @@
+name: Build
+on:
+  push:
+  pull_request:
+
+jobs:
+  macos:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test quitting policy and settings migration
+        run: ./scripts/test.sh
+      - name: Compile Swift package
+        run: swift build -c release
+      - name: Build universal app
+        run: ./scripts/build.sh build universal
+      - name: Archive app
+        run: ditto -c -k --sequesterRsrc --keepParent "build/Swift Quit.app" build/Swift-Quit.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Swift-Quit
+          path: build/Swift-Quit.zip
