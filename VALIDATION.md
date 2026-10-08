@@ -26,6 +26,10 @@ Chrome remained running with an open window throughout the initial checks. That 
 
 Local monitor logs include app identifiers, counts, process IDs and decisions. User window titles, file contents, and the user's preference list are not committed to this repository.
 
+### Word follow-up (2026-10-08)
+
+An existing exclusion rule prevented Microsoft Word from entering the monitor. After removing that rule through Settings, a fresh empty document created with Cmd-N was closed using its native red window button. No Cmd-Q was sent. AX and on-screen CG evidence became empty, Swift Quit requested normal termination approximately 2 seconds later, and an independent process query confirmed that Word's main process exited. Closing the Word start window was also checked and resulted in termination. This required a preference correction, not a change to the window-detection code.
+
 GitHub Actions also passed all tests, Swift package release compilation, universal app construction and ZIP artifact upload on the macOS 15 runner: [build 37609361019](https://github.com/hechuyi/swiftquit/actions/runs/37609361019). Runtime compatibility was verified on the macOS 27 machine described above; the CI runner validates compilation and regressions.
 
 ## macOS 27 background attribution (2026-10-08)
