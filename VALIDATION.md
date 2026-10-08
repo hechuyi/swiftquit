@@ -27,3 +27,9 @@ Chrome remained running with an open window throughout the initial checks. That 
 Local monitor logs include app identifiers, counts, process IDs and decisions. User window titles, file contents, and the user's preference list are not committed to this repository.
 
 GitHub Actions also passed all tests, Swift package release compilation, universal app construction and ZIP artifact upload on the macOS 15 runner: [build 37609361019](https://github.com/hechuyi/swiftquit/actions/runs/37609361019). Runtime compatibility was verified on the macOS 27 machine described above; the CI runner validates compilation and regressions.
+
+## macOS 27 background attribution (2026-10-08)
+
+A reported Ghostty “Running in Background” indicator was traced to detached local development processes that remained members of a Ghostty resource coalition, using read-only `launchctl print pid/<PID>` metadata. The Ghostty main process had already exited. An ordinary app termination request does not remove independently running descendant jobs. This is a different observation from a last-window failure: the main-app PID and attributed background jobs must both be inspected before diagnosing it.
+
+`NSRunningApplication.terminate()` returning true means the request was successfully sent, not that termination has completed; completion requires an independent termination observation. See [Apple API documentation](https://developer.apple.com/documentation/appkit/nsrunningapplication/terminate()) and [macOS 27 background activity documentation](https://support.apple.com/en-au/125671). No user background jobs were terminated as part of that diagnosis.

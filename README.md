@@ -14,6 +14,8 @@ Accessibility reads that time out or fail cancel a pending quit. Space changes a
 
 macOS 27 can retain dead WindowServer records. An all-Spaces CG window record alone therefore does not prove a live window. Retained AX window references protect known off-Space windows; on-screen CG windows veto transient zero-window AX results but never arm automatic quitting by themselves. Some apps hide/orderOut their window rather than destroy it: a recent click on that specific window's native close button can retire only that window after it ceases to be the main window. Other valid windows and minimized windows still veto quitting.
 
+macOS 27 also reports ongoing background work in the Dock after a main app has exited. A terminal can remain marked “Running in Background” because a detached server, shell supervisor or other descendant still belongs to its resource coalition. Automatic application quitting leaves independently running background jobs intact. Their lifecycle and launch ownership need to be managed separately. See [Apple’s explanation](https://support.apple.com/en-au/125671).
+
 The monitor uses public APIs and Accessibility access only, with no Screen Recording permission, private window-ID APIs, or network access. It favors keeping an app running when its window state is ambiguous. Custom drawn close controls and windows an app never exposes through Accessibility can require app-specific handling. The cross-Space protection applies to windows the monitor has observed; it cannot certify windows that were never exposed by the target application's AX implementation.
 
 ## Build and test
